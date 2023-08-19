@@ -16,10 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "airports")
-public class Airport {
-
-    @Id
-    private String id = UUID.randomUUID().toString();
+public class Airport extends BaseEntity {
 
     @NotBlank(message = "City cannot be empty")
     private String city;

@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/**")  // Granted permissions for all operations to comfortably utilize Swagger.
                 .permitAll()
                 .anyRequest()
                 .authenticated()

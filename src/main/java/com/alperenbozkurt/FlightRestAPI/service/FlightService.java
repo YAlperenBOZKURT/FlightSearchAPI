@@ -3,15 +3,20 @@ package com.alperenbozkurt.FlightRestAPI.service;
 import com.alperenbozkurt.FlightRestAPI.dto.FlightCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.FlightDto;
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
+import com.alperenbozkurt.FlightRestAPI.enums.Status;
 import com.alperenbozkurt.FlightRestAPI.repository.FlightRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +26,8 @@ public class FlightService {
 
     private final ModelMapper modelMapper;
 
+
+    // Classic CRUD operations.
     public Flight createFlight(FlightCreateRequest flightCreateRequest) {
         Flight newFlight = modelMapper.map(flightCreateRequest, Flight.class);
         return flightRepository.save(newFlight);
@@ -28,10 +35,9 @@ public class FlightService {
 
     public List<FlightDto> getAllFlights() {
         List<Flight> flights = flightRepository.findAll();
-        List<FlightDto> flightDtos = flights.stream()
+        return flights.stream()
                 .map(this::convertModelToDto)
                 .toList();
-        return flightDtos;
     }
 
     public Flight findFlightById(String id) {
@@ -46,17 +52,7 @@ public class FlightService {
         flightRepository.deleteById(id);
     }
 
-    public List<Flight> findOneWayFlights(String departureAirport, LocalDate departureDate, String arrivalAirport) {
-        return flightRepository.findByDepartureAirportAndDepartureDateTimeBetweenAndArrivalAirport(
-                departureAirport, departureDate, arrivalAirport
-        );
-    }
 
-    public List<Flight> findComplexFlights(String departureAirport, LocalDate departureDate, String arrivalAirport, LocalDate returnDate) {
-        return flightRepository.findByDepartureAirportAndDepartureDateTimeBetweenAndArrivalAirport(
-                departureAirport, departureDate, arrivalAirport, returnDate
-        );
-    }
 
     public Flight updateFlight(String id, FlightDto flightDTO) {
         Optional<Flight> optionalFlight = flightRepository.findById(id);
@@ -68,12 +64,13 @@ public class FlightService {
             existingFlight.setArrivalDateTime(flightDTO.getArrivalDateTime());
             existingFlight.setDepartureAirport(flightDTO.getDepartureAirport());
             existingFlight.setDepartureDateTime(flightDTO.getDepartureDateTime());
+            existingFlight.setStatus(Status.UPDATED);
+            existingFlight.setModifiedDateTime(LocalDateTime.now());
 
-            return existingFlight;
+            return flightRepository.save(existingFlight);
         }
         return null;
     }
-
 
     private FlightDto convertModelToDto(Flight flight) {
         return  FlightDto.builder()
@@ -86,4 +83,38 @@ public class FlightService {
     }
 
 
+    public void saveFlightsFromMockData(String mockData) {
+        List<Flight> flights = parseMockDataAndCreateFlightEntities(mockData);
+        flightRepository.saveAll(flights);
+    }
+
+
+    // Parse mock data and create flight entities.
+    private List<Flight> parseMockDataAndCreateFlightEntities(String mockData) {
+        List<Flight> flights = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(mockData);
+            JsonNode flightsNode = rootNode.get("flights");
+
+            for (JsonNode flightNode : flightsNode) {
+                Flight flight = new Flight();
+                flight.setDepartureAirport(flightNode.get("departureAirport").asText());
+                flight.setArrivalAirport(flightNode.get("arrivalAirport").asText());
+                flight.setDepartureDateTime(LocalDateTime.parse(flightNode.get("departureDateTime").asText()));
+                flight.setArrivalDateTime(LocalDateTime.parse(flightNode.get("arrivalDateTime").asText()));
+                flight.setPrice(flightNode.get("price").asDouble());
+                flight.setStatus(Status.INSERTED);
+                flight.setCreatedDateTime(LocalDateTime.parse(flightNode.get("createdDateTime").asText()));
+                flight.setCreatedBy(flightNode.get("createdBy").asText());
+
+                flights.add(flight);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return flights;
+    }
 }

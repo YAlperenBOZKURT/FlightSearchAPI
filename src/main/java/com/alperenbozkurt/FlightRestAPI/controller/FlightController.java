@@ -2,6 +2,7 @@ package com.alperenbozkurt.FlightRestAPI.controller;
 
 import com.alperenbozkurt.FlightRestAPI.dto.FlightCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.FlightDto;
+import com.alperenbozkurt.FlightRestAPI.entities.Airport;
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
 import com.alperenbozkurt.FlightRestAPI.service.FlightService;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,13 @@ public class FlightController {
         }
     }
 
+    @PutMapping("/{id}")
+    public  ResponseEntity<Flight>  updateFligt(@PathVariable String id, FlightDto flightDto) {
+        Flight uptatedFlight = flightService.updateFlight(id, flightDto);
+        if (uptatedFlight != null) {
+            return  ResponseEntity.ok(uptatedFlight);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }

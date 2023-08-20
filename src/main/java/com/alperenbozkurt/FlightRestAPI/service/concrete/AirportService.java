@@ -1,4 +1,4 @@
-package com.alperenbozkurt.FlightRestAPI.service;
+package com.alperenbozkurt.FlightRestAPI.service.concrete;
 
 import com.alperenbozkurt.FlightRestAPI.dto.AirportCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.AirportDTO;
@@ -7,6 +7,7 @@ import com.alperenbozkurt.FlightRestAPI.entities.Airport;
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
 import com.alperenbozkurt.FlightRestAPI.enums.Status;
 import com.alperenbozkurt.FlightRestAPI.repository.AirportRepository;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IAirportService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AirportService {
+public class AirportService implements IAirportService {
 
     private final AirportRepository airportRepository;
 
@@ -65,7 +66,7 @@ public class AirportService {
         return airportRepository.save(existingAirport);
     }
 
-    private AirportDTO convertModelToDto(Airport airport) {
+    public AirportDTO convertModelToDto(Airport airport) {
         return  AirportDTO.builder()
                 .airportCode(airport.getAirportCode())
                 .city(airport.getCity())

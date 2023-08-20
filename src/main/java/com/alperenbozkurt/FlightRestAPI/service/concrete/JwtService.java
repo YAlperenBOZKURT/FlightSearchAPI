@@ -1,7 +1,8 @@
-package com.alperenbozkurt.FlightRestAPI.service;
+package com.alperenbozkurt.FlightRestAPI.service.concrete;
 
 
 import com.alperenbozkurt.FlightRestAPI.entities.User;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IJwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtService implements IJwtService {
 
     @Value("${security.jwt.secret}")
     private String SECRET_KEY;
@@ -26,7 +27,7 @@ public class JwtService {
         return exportToken(token, Claims::getSubject);
     }
 
-    private <T> T exportToken(java.lang.String token, Function<Claims, T> claimsTFunction) {
+    public  <T> T exportToken(java.lang.String token, Function<Claims, T> claimsTFunction) {
         final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getKey())
                 .build().parseClaimsJws(token).getBody();
@@ -34,7 +35,7 @@ public class JwtService {
         return claimsTFunction.apply(claims);
     }
 
-    private Key getKey() {
+    public Key getKey() {
         byte[] key = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(key);
     }

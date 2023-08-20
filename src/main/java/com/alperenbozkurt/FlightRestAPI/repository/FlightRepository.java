@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface FlightRepository extends MongoRepository<Flight, String> {
+public interface FlightRepository extends BaseRepository<Flight, String> {
 
 
 }

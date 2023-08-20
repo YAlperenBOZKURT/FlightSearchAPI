@@ -1,10 +1,12 @@
-package com.alperenbozkurt.FlightRestAPI.service;
+package com.alperenbozkurt.FlightRestAPI.service.concrete;
 
 import com.alperenbozkurt.FlightRestAPI.dto.FlightCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.FlightDto;
+import com.alperenbozkurt.FlightRestAPI.entities.Airport;
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
 import com.alperenbozkurt.FlightRestAPI.enums.Status;
 import com.alperenbozkurt.FlightRestAPI.repository.FlightRepository;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IFlightService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class FlightService {
+public class FlightService implements IFlightService {
 
     private final FlightRepository flightRepository;
 
@@ -56,6 +58,9 @@ public class FlightService {
 
     public Flight updateFlight(String id, FlightDto flightDTO) {
         Optional<Flight> optionalFlight = flightRepository.findById(id);
+
+        System.out.println(flightDTO.getArrivalDateTime());
+        System.out.println(flightDTO.getDepartureDateTime());
         if (optionalFlight.isPresent()) {
             Flight existingFlight = optionalFlight.get();
 
@@ -67,12 +72,14 @@ public class FlightService {
             existingFlight.setStatus(Status.UPDATED);
             existingFlight.setModifiedDateTime(LocalDateTime.now());
 
+
+
             return flightRepository.save(existingFlight);
         }
         return null;
     }
 
-    private FlightDto convertModelToDto(Flight flight) {
+    public FlightDto convertModelToDto(Flight flight) {
         return  FlightDto.builder()
                 .price(flight.getPrice())
                 .arrivalAirport(flight.getArrivalAirport())
@@ -90,7 +97,7 @@ public class FlightService {
 
 
     // Parse mock data and create flight entities.
-    private List<Flight> parseMockDataAndCreateFlightEntities(String mockData) {
+    public List<Flight> parseMockDataAndCreateFlightEntities(String mockData) {
         List<Flight> flights = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 

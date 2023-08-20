@@ -1,9 +1,9 @@
 package com.alperenbozkurt.FlightRestAPI.repository;
 
-import com.alperenbozkurt.FlightRestAPI.entities.Airport;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface AirportRepository extends BaseRepository<Airport, String> {
+@NoRepositoryBean
+public  interface BaseRepository<T, id> extends MongoRepository<T, id> {
 }

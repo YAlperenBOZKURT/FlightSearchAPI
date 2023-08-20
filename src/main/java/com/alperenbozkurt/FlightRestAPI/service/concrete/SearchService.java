@@ -1,8 +1,9 @@
-package com.alperenbozkurt.FlightRestAPI.service;
+package com.alperenbozkurt.FlightRestAPI.service.concrete;
 
 
 import com.alperenbozkurt.FlightRestAPI.entities.Airport;
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.ISearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SearchService {
+public class SearchService implements ISearchService {
 
     private final MongoTemplate mongoTemplate;
     public List<Flight> findFligts (String departureCity, String arrivalCity, LocalDate date) {

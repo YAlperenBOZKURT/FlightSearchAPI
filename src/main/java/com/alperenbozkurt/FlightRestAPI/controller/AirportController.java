@@ -3,7 +3,7 @@ package com.alperenbozkurt.FlightRestAPI.controller;
 import com.alperenbozkurt.FlightRestAPI.dto.AirportCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.AirportDTO;
 import com.alperenbozkurt.FlightRestAPI.entities.Airport;
-import com.alperenbozkurt.FlightRestAPI.service.AirportService;
+import com.alperenbozkurt.FlightRestAPI.service.concrete.AirportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

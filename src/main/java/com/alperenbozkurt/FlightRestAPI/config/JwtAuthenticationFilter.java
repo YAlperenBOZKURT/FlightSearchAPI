@@ -1,6 +1,6 @@
 package com.alperenbozkurt.FlightRestAPI.config;
 
-import com.alperenbozkurt.FlightRestAPI.service.JwtService;
+import com.alperenbozkurt.FlightRestAPI.service.concrete.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

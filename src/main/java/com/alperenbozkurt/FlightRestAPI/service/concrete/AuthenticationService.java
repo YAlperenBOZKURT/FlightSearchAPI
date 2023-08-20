@@ -1,4 +1,4 @@
-package com.alperenbozkurt.FlightRestAPI.service;
+package com.alperenbozkurt.FlightRestAPI.service.concrete;
 
 import com.alperenbozkurt.FlightRestAPI.dto.UserDto;
 import com.alperenbozkurt.FlightRestAPI.dto.UserRequest;
@@ -6,6 +6,7 @@ import com.alperenbozkurt.FlightRestAPI.dto.UserResponse;
 import com.alperenbozkurt.FlightRestAPI.entities.User;
 import com.alperenbozkurt.FlightRestAPI.enums.Role;
 import com.alperenbozkurt.FlightRestAPI.repository.UserRepository;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
 
     private final UserRepository userRepository;
 

@@ -1,6 +1,6 @@
 package com.alperenbozkurt.FlightRestAPI.scheduler;
 
-import com.alperenbozkurt.FlightRestAPI.service.FlightService;
+import com.alperenbozkurt.FlightRestAPI.service.concrete.FlightService;
 import com.alperenbozkurt.FlightRestAPI.util.MockDataGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

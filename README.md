@@ -1,7 +1,7 @@
 
 # Flight Search API (Backend Developer)
 
-This project focuses on building the backend API for a flight search application. This project has been authored by Yusuf Alperen Bozkurt. My contact details can be found in my profile.
+## This project focuses on building the backend API for a flight search application. This project has been authored by Yusuf Alperen Bozkurt. My contact details can be found in my profile.
 
 ## Table of Contents
 

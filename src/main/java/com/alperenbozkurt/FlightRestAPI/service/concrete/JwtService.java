@@ -23,10 +23,13 @@ public class JwtService implements IJwtService {
     @Value("${security.jwt.secret}")
     private String SECRET_KEY;
 
+    @Override
     public String findUsername(String token) {
         return exportToken(token, Claims::getSubject);
     }
 
+
+    @Override
     public  <T> T exportToken(java.lang.String token, Function<Claims, T> claimsTFunction) {
         final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getKey())
@@ -35,17 +38,19 @@ public class JwtService implements IJwtService {
         return claimsTFunction.apply(claims);
     }
 
+    @Override
     public Key getKey() {
         byte[] key = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(key);
     }
 
-
+    @Override
     public boolean tokenControl(String jwt, UserDetails userDetails) {
         final String username = findUsername(jwt);
         return (username.equals(userDetails.getUsername()) && !exportToken(jwt, Claims::getExpiration).before(new Date()));
     }
 
+    @Override
     public String generateToken(UserDetails user) {
         return Jwts.builder()
                 .setClaims(new HashMap<>())

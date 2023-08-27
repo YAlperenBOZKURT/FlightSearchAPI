@@ -3,7 +3,7 @@ package com.alperenbozkurt.FlightRestAPI.controller;
 import com.alperenbozkurt.FlightRestAPI.dto.FlightCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.FlightDto;
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
-import com.alperenbozkurt.FlightRestAPI.service.concrete.FlightService;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IFlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlightController {
 
-    private final FlightService flightService;
+    private final IFlightService flightService;
 
     @PostMapping
     public ResponseEntity<Flight> createFlight(@RequestBody FlightCreateRequest flightCreateRequest) {

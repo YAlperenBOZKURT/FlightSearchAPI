@@ -3,7 +3,9 @@ package com.alperenbozkurt.FlightRestAPI.controller;
 import com.alperenbozkurt.FlightRestAPI.dto.AirportCreateRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.AirportDTO;
 import com.alperenbozkurt.FlightRestAPI.entities.Airport;
-import com.alperenbozkurt.FlightRestAPI.service.concrete.AirportService;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IAirportService;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AirportController {
 
-    private final AirportService airportService;
+    private final IAirportService airportService;
 
 
     @PostMapping

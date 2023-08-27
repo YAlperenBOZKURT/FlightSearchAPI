@@ -20,6 +20,8 @@ import java.util.List;
 public class SearchService implements ISearchService {
 
     private final MongoTemplate mongoTemplate;
+
+    @Override
     public List<Flight> findFligts (String departureCity, String arrivalCity, LocalDate date) {
 
         Airport departureAirport = mongoTemplate.findOne(
@@ -44,7 +46,7 @@ public class SearchService implements ISearchService {
 
         return flightList;
     }
-
+    @Override
     public List<Flight> findFlightsWithDatesAndCities(
             String departureCity, String arrivalCity,
             LocalDate departureDate, LocalDate returnDate

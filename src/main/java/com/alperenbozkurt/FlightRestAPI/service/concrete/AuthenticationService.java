@@ -7,6 +7,7 @@ import com.alperenbozkurt.FlightRestAPI.entities.User;
 import com.alperenbozkurt.FlightRestAPI.enums.Role;
 import com.alperenbozkurt.FlightRestAPI.repository.UserRepository;
 import com.alperenbozkurt.FlightRestAPI.service.abstracts.IAuthenticationService;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IJwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,7 +23,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     private final UserRepository userRepository;
 
-    private final JwtService jwtService;
+    private final IJwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -30,6 +31,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     private final MongoTemplate mongoTemplate;
 
+    @Override
     public UserResponse save(UserDto userDto) {
         User newUser = User.builder()
                 .username(userDto.getUsername())
@@ -42,7 +44,7 @@ public class AuthenticationService implements IAuthenticationService {
         return UserResponse.builder().token(token).build();
     }
 
-
+    @Override
     public UserResponse auth(UserRequest userRequest) {
         Query query = new Query(Criteria.where("username").is(userRequest.getUsername()));
         User user = mongoTemplate.findOne(query, User.class);

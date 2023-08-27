@@ -2,7 +2,7 @@ package com.alperenbozkurt.FlightRestAPI.controller;
 
 
 import com.alperenbozkurt.FlightRestAPI.entities.Flight;
-import com.alperenbozkurt.FlightRestAPI.service.concrete.SearchService;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.ISearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SearchFlightController {
 
-    private  final SearchService searchService;
+    private  final ISearchService searchService;
 
 
     @GetMapping("/findFlights")

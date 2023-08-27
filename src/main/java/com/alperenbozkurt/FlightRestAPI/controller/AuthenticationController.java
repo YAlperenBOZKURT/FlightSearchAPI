@@ -3,6 +3,7 @@ package com.alperenbozkurt.FlightRestAPI.controller;
 import com.alperenbozkurt.FlightRestAPI.dto.UserDto;
 import com.alperenbozkurt.FlightRestAPI.dto.UserRequest;
 import com.alperenbozkurt.FlightRestAPI.dto.UserResponse;
+import com.alperenbozkurt.FlightRestAPI.service.abstracts.IAuthenticationService;
 import com.alperenbozkurt.FlightRestAPI.service.concrete.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
 
     @PostMapping("/save")
     public ResponseEntity<UserResponse> save(@RequestBody UserDto userDto) {

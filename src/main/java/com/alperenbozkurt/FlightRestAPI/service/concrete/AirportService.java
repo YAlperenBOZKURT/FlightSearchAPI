@@ -25,11 +25,13 @@ public class AirportService implements IAirportService {
 
     private final ModelMapper modelMapper;
 
+    @Override
     public Airport createAirport(AirportCreateRequest airportCreateRequest) {
         Airport newAirport = modelMapper.map(airportCreateRequest, Airport.class);
         return airportRepository.save(newAirport);
     }
 
+    @Override
     public String deleteAirport (String id) {
         Optional<Airport> airport = airportRepository.findById(id);
         if (airport.isEmpty()) {
@@ -39,11 +41,13 @@ public class AirportService implements IAirportService {
         return "deleted airport information";
     }
 
+    @Override
     public Airport findById (String id) {
         Optional<Airport> airport = airportRepository.findById(id);
         return airport.orElse(null);
     }
 
+    @Override
     public List<AirportDTO> getAll() {
         List<Airport> airports = airportRepository.findAll();
         return airports.stream()
@@ -51,6 +55,8 @@ public class AirportService implements IAirportService {
                 .toList();
     }
 
+
+    @Override
     public  Airport updateAirport (String id, AirportDTO airportDTO) {
         Optional<Airport> airport = airportRepository.findById(id);
         if (airport.isEmpty()) {
@@ -66,6 +72,7 @@ public class AirportService implements IAirportService {
         return airportRepository.save(existingAirport);
     }
 
+    @Override
     public AirportDTO convertModelToDto(Airport airport) {
         return  AirportDTO.builder()
                 .airportCode(airport.getAirportCode())

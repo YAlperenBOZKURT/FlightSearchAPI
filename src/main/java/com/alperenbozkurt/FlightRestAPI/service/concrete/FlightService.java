@@ -30,11 +30,13 @@ public class FlightService implements IFlightService {
 
 
     // Classic CRUD operations.
+    @Override
     public Flight createFlight(FlightCreateRequest flightCreateRequest) {
         Flight newFlight = modelMapper.map(flightCreateRequest, Flight.class);
         return flightRepository.save(newFlight);
     }
 
+    @Override
     public List<FlightDto> getAllFlights() {
         List<Flight> flights = flightRepository.findAll();
         return flights.stream()
@@ -42,6 +44,7 @@ public class FlightService implements IFlightService {
                 .toList();
     }
 
+    @Override
     public Flight findFlightById(String id) {
         Optional<Flight> flight = flightRepository.findById(id);
         if (flight.isPresent()) {
@@ -50,12 +53,13 @@ public class FlightService implements IFlightService {
         return null;
     }
 
+    @Override
     public void deleteFlight(String id) {
         flightRepository.deleteById(id);
     }
 
 
-
+    @Override
     public Flight updateFlight(String id, FlightDto flightDTO) {
         Optional<Flight> optionalFlight = flightRepository.findById(id);
 
@@ -79,6 +83,7 @@ public class FlightService implements IFlightService {
         return null;
     }
 
+    @Override
     public FlightDto convertModelToDto(Flight flight) {
         return  FlightDto.builder()
                 .price(flight.getPrice())
@@ -89,14 +94,14 @@ public class FlightService implements IFlightService {
                 .build();
     }
 
-
+    @Override
     public void saveFlightsFromMockData(String mockData) {
         List<Flight> flights = parseMockDataAndCreateFlightEntities(mockData);
         flightRepository.saveAll(flights);
     }
 
-
     // Parse mock data and create flight entities.
+    @Override
     public List<Flight> parseMockDataAndCreateFlightEntities(String mockData) {
         List<Flight> flights = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
